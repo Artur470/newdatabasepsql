@@ -98,22 +98,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
+import dj_database_url
 database_url = os.environ.get("DATABASE_URL")
-DATABASES = {
-    'default': dj_database_url.parse(database_url)
-}
 
+if database_url:
+    DATABASES = {
+        'default': dj_database_url.parse(database_url)
+    }
+else:
+    raise ValueError("DATABASE_URL is not set or invalid")
 
 #     postgresql://homelifedb_9r3p_user:b8CyMmwKQ38SEObhU84i1V1BddSPnqpd@dpg-cs31mvbv2p9s738qmd9g-a.oregon-postgres.render.com/homelifedb_9r3p
 # Password validation
